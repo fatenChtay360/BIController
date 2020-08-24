@@ -1,0 +1,867 @@
+openapi: 3.0.1
+info:
+  title: KITSUNE BI PROJECT
+  description: 'API descriptions for BI service'
+  contact:
+    email: ali.sehati@telus.com
+  version: 1.0.0
+tags:
+- name: CE
+  description: Converged Edge
+  
+paths:
+  /bi/mpls/v1/service:
+    post:
+      tags: 
+      - CE
+      summary: Creates a BI service
+      operationId: createBI
+      requestBody:
+        description: Parameters describing service characteristics
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BIServiceTMF'
+        required: true
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+
+  /bi/mpls/v1/service/{id}:
+    put:
+      tags:
+      - CE
+      summary: Update a BI service
+      operationId: updateBI
+      parameters:
+      - name: id
+        in: path
+        description: ID of the BI service that needs to be updated
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Description of BI service parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BIServiceTMF'
+        required: true
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+          
+    delete:
+      tags:
+      - CE
+      summary: Deactivates the port and also removes service configuration from device
+      operationId: deActivatePort
+      parameters:
+      - name: id
+        in: path
+        description: ID of the BI service that needs to be deactivated
+        required: true
+        schema:
+          type: string
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+                
+  /bi/mpls/v1/service/{id}/activate:
+    put:
+      tags:
+      - CE
+      summary: Activates port for a BI service
+      operationId: activatePort
+      parameters:
+      - name: id
+        in: path
+        description: ID of the BI service that needs to be activated
+        required: true
+        schema:
+          type: string
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+                
+  /bi/mpls/v1/service/{id}/mwr/{mwr_id}:
+    post:
+      tags:
+      - CE
+      summary: Configures and activates wireless resiliency for a BI service
+      description: Configures and activates wireless resiliency for a BI service.
+      operationId: activateMWR
+      parameters:
+      - name: id
+        in: path
+        description: ID of the BI service that needs an MWR add-on
+        required: true
+        schema:
+          type: string
+      - name: mwr_id
+        in: path
+        description: ID of the MWR 
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Description of BI service parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BIServiceTMF'
+        required: true
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+    delete:
+      tags:
+      - CE
+      summary: Deactivates wireless resiliency for a BI service
+      description: Deactivates wireless resiliency for a BI service
+      operationId: deactivateMWR
+      parameters:
+      - name: id
+        in: path
+        description: ID of the BI service that needs an MWR add-on to be removed
+        required: true
+        schema:
+          type: string
+      - name: mwr_id
+        in: path
+        description: ID of the MWR 
+        required: true
+        schema:
+          type: string
+      responses:
+        202:
+          description: Operation accepted
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestId'
+        400:
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse400'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse500'
+    
+  /client/listener:
+    post:
+      tags:
+      - Callback to NorthBound
+      summary: Callback API to northbound 
+      description: Callback API to northbound system to inform about the result of asynchronous operations
+      operationId: callbackAPI
+      requestBody:
+        description: Notification response to inform about the result of asynchronous operations
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallBack'
+        required: true
+      responses:
+        204:
+          description: Operation accepted. No Content
+          content: {}
+        
+components:
+  schemas:
+    CallBack:
+      type: object
+      description: Payload for the callback API to inform northbound system about the status of asynchronous operations
+      required:
+      - correlationId
+      - eventId
+      - eventTime
+      - event
+      properties:
+        correlationId:
+          type: string
+          description: contains request id that can be used to correlate with the initial asynchronous request submitted to TINAA
+        eventId:
+          type: string
+        eventTime:
+          type: string
+        event:
+          type: object
+          properties:
+            service:
+              type: object
+              properties:
+                id:
+                  type: string
+                href:
+                  type: string
+                status: 
+                  type: string
+                  enum:
+                  - success
+                  - error
+                statusChangeReason:
+                  description: In the case of failure, explains the reason for failure
+                  type: string
+                code:
+                  type: string
+                  enum: [ERR201, ERR202, ERR203, ERR204, ERR205, ERR206, ERR207, ERR208, ERR209, ERR210, ERR211, ERR212, ERR213]
+                  description: >
+                    Application error code: <br>
+                    * `ERR201` - internal server error <br>
+                    * `ERR202` - port not available <br>
+                    * `ERR203` - vlanId not available <br>
+                    * `ERR204` - target service not TELUS managed <br>
+                    * `ERR205` - mwr service already exists <br>
+                    * `ERR206` - access type not supported  <br>
+                    * `ERR207` - speed value not supported by access type <br>
+                    * `ERR208` - no change in speed value <br>
+                    * `ERR209` - IPv6 not enabled <br>
+                    * `ERR210` - no delta between prefixes <br>
+                    * `ERR211` - IPv6 already enabled <br>
+                    * `ERR212` - update not supported <br>
+                    * `ERR213` - service does not have mwr
+
+              
+    BIServiceTMF:
+      type: object
+      description: TMF-based representation for BI service
+      required:
+      - serviceType
+      - serviceCharacteristic
+      properties:
+        serviceType:
+          type: string
+          enum:
+          - mpls
+        serviceCharacteristic:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - valueType
+            - value
+            properties:
+              name:
+                type: string
+                enum:
+                - tinaa-bsaf-bi-mpls
+              valueType:
+                type: string
+                enum:
+                - object
+              value:
+                type: object
+                required:
+                - "@type"
+                - "@schemaLocation"
+                - site
+                properties:
+                  "@type":
+                    type: string
+                    enum:
+                    - tinaa-bsaf-bi-mpls-v1
+                  "@schemaLocation":
+                    type: string
+                    enum:
+                    - https://bsaf.tinaa.telus.com/schema/service/tinaa-bsaf-bi-mpls-v1.schema.json
+                  site:
+                    "$ref": "#/components/schemas/siteRef"
+                                          
+    ApiResponse400:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        reason:
+          type: string
+        code:
+          type: string
+          enum: [ERR001, ERR002, ERR003, ERR004, ERR005]
+          description: >
+            Application error code: <br>
+            * `ERR001` - input validation failed <br>
+            * `ERR002` - service operation in progress <br>
+            * `ERR003` - service does not exist <br>
+            * `ERR004` - service already terminated <br>
+            * `ERR005` - service already in active state
+            
+    ApiResponse500:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        reason:
+          type: string
+        code:
+          type: string
+          enum: [ERR101]
+          description: >
+            Application error code: <br>
+            * `ERR101` - Internal server error
+          
+    RequestId:
+      type: object
+      properties:
+        requestId:
+          type: string
+          description: Unique identifier for the request
+          
+    site-network-access-grouping:
+      type: object
+      properties:
+        site-network-access:
+          description: A logical circuit between site and PE
+          type: object
+          required:
+          - site-network-access-type
+          - telus-pe-device-reference
+          properties:
+            site-network-access-id:
+              description: Logical Circuit ID
+              type: number
+            site-network-access-type:
+              description: TELUS specific identifiers for access type
+              type: string
+              enum:
+              - telus-re-direct
+              - telus-mwr
+            telus-device-loopback-address:
+              type: string
+              description: Loopback IPv4 address on the CPE. Mandatory when site-network-access-type is set to telus-mwr
+            telus-pe-device-reference:
+              description: Maps A PE to A specific logical circuit
+              type: string
+            telus-device-reference:
+              description: Maps A TELUS Managed CPE to A logical circuit. Mandatory for Telus Managed services
+              type: string
+            telus-demarc-device-reference:
+              description: Maps a TELUS Demarc Device to A logical circuit. Mandatory for customer managed services.
+              type: string
+            bearer:
+              type: object
+              description: Contains L2/L1 underlay information for A Logical Circuit
+              properties:
+                telus-pe-tp-info:
+                  type: object
+                  description: Contains termination point attributes for the PE that terminates a logical circuit instance. Only used when requested-type is set to 'HS' or 'DSL'
+                  required:
+                  - port
+                  - vlan-id
+                  - speed
+                  properties:
+                    vlan-inner-id:
+                      description: Inner vlan-id if qinq. Mandatory if encapsulation is set to 'qinq'
+                      type: number
+                    mode:
+                      description: Port/Interface Mode Type
+                      type: string
+                      default: access
+                      enum:
+                      - access
+                      - trunk
+                    vlan-id:
+                      description: Outer or Single VLAN ID. Mandatory if encapsulation is set to 'dot1q' or 'qinq'
+                      type: number
+                    encapsulation:
+                      description: Encapsulation type
+                      type: string
+                      default: dot1q
+                      enum:
+                      - dot1q
+                      - qinq
+                    admin-state:
+                      description: Config state of port
+                      type: string
+                      default: down
+                      enum:
+                      - up
+                      - down
+                    speed:
+                      description: Port/Interface speed
+                      type: string
+                      enum:
+                      - 10M
+                      - 100M
+                      - 1G
+                      - 10G
+                    port:
+                      description: Port/Interface ID on PE
+                      type: string
+                telus-gre-tp-info:
+                  description: Contains termination point attributes for the GRE tunnel used for MWR services
+                  required:
+                  - tunnel-group-id
+                  - delivery-service-id
+                  - provider-tunnel-address
+                  - customer-tunnel-address
+                  - vlan-id
+                  properties:
+                    tunnel-group-id:
+                      description: Tunnel Group Number
+                      type: number
+                    delivery-service-id:
+                      type: number
+                    provider-tunnel-address:
+                      type: string
+                    customer-tunnel-address:
+                      type: string
+                    tunnel-prefix-length:
+                      type: number
+                    vlan-id:
+                      description: Outer or Single VLAN ID
+                      type: number
+                bearer-id:
+                  description: Unique ID to identify a common underlay between two or more
+                    logical circuits
+                  type: string
+                requested-type:
+                  type: object
+                  required:
+                  - requested-type
+                  properties:
+                    requested-type:
+                      description: TELUS specific identifiers for the underlay
+                      type: string
+                      enum:
+                      - HS
+                      - DSL
+                      - MWR
+            ip-connection:
+              type: object
+              description: Contains L3 details of logical circuit
+              properties:
+                ipv4:
+                  type: object
+                  description: Contains L3 IPv4 details
+                  properties:
+                    static-address:
+                      description: Type of method used to assign the L3 IPs
+                      type: object
+                      properties:
+                        addresses:
+                          type: object
+                          required:
+                          - provider-address
+                          - customer-address
+                          - prefix-length
+                          properties:
+                            provider-address:
+                              description: PE's IPv4 address
+                              type: string
+                            prefix-length:
+                              description: Subnet mask for the IPv4 prefix
+                              type: number
+                            customer-address:
+                              description: CPEs IPv4 address
+                              type: string
+                ipv6:
+                  type: object
+                  description: Contains L3 IPv6 details. Used only when telus-ipv6-service is set to true and requested-type is not equal to 'MWR'
+                  properties:
+                    static-address:
+                      description: Type of method used to assign L3 IPs
+                      type: object
+                      properties:
+                        addresses:
+                          type: object
+                          required:
+                          - provider-address
+                          - customer-address
+                          - prefix-length
+                          properties:
+                            provider-address:
+                              description: PE's IPv6 address
+                              type: string
+                            prefix-length:
+                              description: Subnet mask for the IPv6 prefix
+                              type: number
+                            customer-address:
+                              description: CPEs IPv6 address
+                              type: string
+            service:
+              type: object
+              description: Contains Other service level paramaters
+              properties:
+                telus-svc-input-cir-bandwidth:
+                  description: Service Ingress CIR Bw from PE perspective
+                  type: integer
+                svc-input-bandwidth:
+                  description: Service Ingress Bw from PE perspective. Mandatory for re-direct HS
+                  type: integer
+                svc-output-bandwidth:
+                  description: Service Egress Bw from PE perspective
+                  type: integer
+                svc-mtu:
+                  description: Service Layer 3 (IP) MTU size. If default of 1500 is invalid,
+                    then alt value must be provided
+                  type: number
+                  default: 1500
+            routing-protocols:
+              type: object
+              description: Contains possible routing protocol choices
+              properties:
+                routing-protocol:
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        description: Specifies eithr bgp OR static as the protocol
+                        type: string
+                        enum:
+                        - bgp
+                        - static
+                      bgp:
+                        type: object
+                        description: Contains BGP specific parameters. Used only when routing protocol type is bgp
+                        required:
+                        - autonomous-system
+                        properties:
+                          autonomous-system:
+                            description: AS Number for CPE/Customer Site
+                            type: number
+                          address-family:
+                            description: Option to select IPv4 w/ or w/o IPv6
+                            items:
+                              type: string
+                              enum:
+                              - ipv4
+                              - ipv6
+                            type: array
+                            minItems: 1
+                          neighbor-v4-address:
+                            description: Specify BGP neighbor for v4 peering
+                            type: string
+                  type: array
+            availability:
+              type: object
+              properties:
+                access-priority:
+                  description: Denotes priority for this logical circuit. Max value of 100 -> Primary logical circuit,  90 -> Secondary logical circuit, -10 -> Subtract 10 for each additional circuits, ECMP -> For load-balancing set same value for 2 circuits, 10 -> 10 is reserved for MWR/Backup circuits
+                  type: number
+                  default: 100
+            telus-network-access-info:
+              type: object
+              required:
+              - re-service-id
+              properties:
+                accounting-policy-id:
+                  description: Accounting Policy Identifier
+                  type: string
+                  default: '77'
+                re-service-id:
+                  description: Corresponds to IES Service ID
+                  type: integer
+      
+    siteRef:
+      type: object
+      required:
+      - telus-cust-service-id
+      - management
+      properties:
+        site-id:
+          description: Unique identifier for the site. May refer to geographic site location
+          type: string
+        telus-network:
+          description: Target TELUS network type
+          type: string
+          enum:
+          - collapsed-metro
+          - converged-edge
+          - auto-select
+          default: converged-edge
+        telus-ipv6-service:
+          type: boolean
+          default: false
+        management:
+          description: Type of service in a mgmt context. Telus-Managed or Customer-Managed
+            Service
+          type: string
+          enum:
+          - provider-managed
+          - customer-managed
+        site-network-accesses:
+          allOf:
+            - "$ref": "#/components/schemas/site-network-access-grouping"
+          description: Only used for Customer-managed Services.
+        telus-pe-ce-network-accesses:
+          allOf:
+            - "$ref": "#/components/schemas/site-network-access-grouping"
+          description: Only used for Telus-managed Services.
+        
+        locations:
+          type: object
+          description: Contains all the locations associated with the site. Only relevant
+            for sites with dual redundant cpes
+          properties:
+            location:
+              items:
+                type: object
+                properties:
+                  location-id:
+                    description: Location ID - preferably based on the site location id
+                      with a numeric suffix
+                    type: string
+                  telus-cust-service-id:
+                    description: TELUS customer service ID
+                    type: string
+              type: array
+        devices:
+          description: List of Manqaged CPEs associated with the site. Only used for Telus Managed Services.
+          type: object
+          properties:
+            device:
+              items:
+                type: object
+                required:
+                - device-id
+                properties:
+                  device-id:
+                    description: TELUS CLLI based name for the CPE
+                    type: string
+                  location-id:
+                    description: Maps A device to a location
+                    type: string
+              type: array
+              minItems: 1
+        telus-pe-devices:
+          type: object
+          description: Contains list of All PEs associated with a site
+          properties:
+            pe-device:
+              description: List of PEs for A site
+              items:
+                type: object
+                required:
+                - pe-device-id
+                properties:
+                  pe-device-id:
+                    description: TELUS CLLI based name for the PE
+                    type: string
+                  locations:
+                    description: List of all location ids associated with A PE
+                    items:
+                      type: string
+                    type: array
+              type: array
+              minItems: 1
+        vpn-policies:
+          type: object
+          description: Contains VPN routing policies ids and constraints. Used when site-network-access-type is NOT set to 'telus-mwr'.
+          properties:
+            vpn-policy:
+              type: object
+              description: A single VPN-policy is used for TELUS MPLS BI services
+              properties:
+                mpls-bi:
+                  type: object
+                  description: Contains the VPN-policy details specific to MPLS BI
+                  properties:
+                    type:
+                      description: TELUS routing options for MPLS BI clients
+                      items:
+                        type: string
+                        enum:
+                        - static
+                        - default-only
+                        - full-routes-only
+                        - default-route-and-full-routes
+                      type: array
+                      maxItems: 1
+                    entries:
+                      type: object
+                      description: Entries for MPL BI VPN policy. Only used when site-network-access-type is set to 'telus-re-direct'. If site-network-access-type is set to 'telus-re-direct', then at least one of 'customer-prefixes' or 'telus-provider-prefixes' should be provided.
+                      properties:
+                        customer-prefixes:
+                          type: object
+                          description: Contains BI prefixes owned by Customer
+                          properties:
+                            filters:
+                              type: object
+                              properties:
+                                filter:
+                                  type: object
+                                  properties:
+                                    ipv6-lan-prefix:
+                                      description: IPv6 BI prefixes owned by Customer. Used only when telus-ipv6-service is set to true
+                                      items:
+                                        type: string
+                                      type: array
+                                    ipv4-lan-prefix:
+                                      description: IPv4 BI prefixes owned by Customer
+                                      items:
+                                        type: string
+                                      type: array
+                        telus-provider-prefixes:
+                          type: object
+                          description: Contains BI prefixes assigned by TELUS
+                          properties:
+                            filters:
+                              type: object
+                              properties:
+                                filter:
+                                  type: object
+                                  properties:
+                                    ipv6-lan-prefix:
+                                      description: IPv6 BI prefixes assigned by TELUS. Used only when telus-ipv6-service is set to true
+                                      items:
+                                        type: string
+                                      type: array
+                                    ipv4-lan-prefix:
+                                      description: IPv4 BI prefixes assigned by TELUS
+                                      items:
+                                        type: string
+                                      type: array
+        telus-demarc-devices:
+          type: object
+          description: List of all TELUS Demarc devices associated with the site. Only used for Customer-managed Services.
+          properties:
+            demarc-device:
+              items:
+                type: object
+                required:
+                - demarc-device-id
+                properties:
+                  demarc-device-id:
+                    description: TELUS CLLI based name for the Demarc Device
+                    type: string
+                  management:
+                    type: object
+                    required:
+                    - vlan-id
+                    - vpls-service-id
+                    description: Management Parameters associated with Demarc Device
+                    properties:
+                      vlan-id:
+                        description: Management VLAN ID
+                        type: number
+                      vpls-service-id:
+                        description: VPLS ID for Mgmt connection
+                        type: number
+                      qos-policy-id:
+                        description: QoS Policy ID for Mgmt circuit
+                        type: string
+                        default: '1901'
+              type: array
+              minItems: 1
+        telus-site-info:
+          type: object
+          required:
+          - full-service-name
+          properties:
+            full-service-name:
+              type: string
+        telus-cust-service-id:
+          description: TELUS customer service ID
+          type: string
+        telus-cust-info:
+          type: object
+          description: Contains Customer specific information
+          required:
+          - cust-id
+          - cust-shortname
+          - cust-descr
+          properties:
+            cust-id:
+              description: TELUS Enterprise Customer ID
+              type: string
+            cust-shortname:
+              description: Abbreviated Name for Customer
+              type: string
+            cust-descr:
+              description: Customer Description Details
+              type: string
+            cust-email-address:
+              description: Customer's email address
+              type: string
+      title: bsaf-bi-mpls-api-gw

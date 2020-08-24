@@ -1,0 +1,10 @@
+{
+  "eventTime": "string",
+  "event": {
+    "service": {
+      "id": "string",
+      "href": "string",
+      "status": "string"
+    }
+  }
+}

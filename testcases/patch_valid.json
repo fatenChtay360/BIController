@@ -1,0 +1,17 @@
+{
+	"serviceCharacteristic": [{
+		"value": {
+			"site": {
+				"telus-pe-ce-network-accesses": {
+					"site-network-access": [{
+						"bearer": {
+							"telus-pe-tp-info": {
+								"admin-state": "up"
+							}
+						}
+					}]
+				}
+			}
+		}
+	}]
+}

@@ -1,0 +1,14 @@
+{
+  "correlationId": "string",
+  "eventId": "string",
+  "eventTime": "string",
+  "event": {
+    "service": {
+      "id": "string",
+      "href": "string",
+      "status": "success",
+      "statusChangeReason": "string",
+      "code": "ERR201"
+    }
+  }
+}

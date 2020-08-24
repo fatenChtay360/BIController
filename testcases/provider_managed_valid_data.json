@@ -1,0 +1,264 @@
+{
+  "serviceType": "mpls",
+  "serviceCharacteristic": [
+    {
+      "name": "tinaa-bsaf-bi-mpls",
+      "valueType": "object",
+      "value": {
+        "@type": "tinaa-bsaf-bi-mpls-v1",
+        "@schemaLocation": "https://bsaf.tinaa.telus.com/schema/service/tinaa-bsaf-bi-mpls-v1.schema.json",
+        "site": {
+          "site-id": "string",
+          "telus-network": "converged-edge",
+          "telus-ipv6-service": false,
+          "management": "provider-managed",
+          "site-network-accesses": {
+            "site-network-access": {
+              "site-network-access-id": 0,
+              "site-network-access-type": "telus-re-direct",
+              "telus-device-loopback-address": "string",
+              "telus-pe-device-reference": "string",
+              "telus-device-reference": "string",
+              "telus-demarc-device-reference": "string",
+              "bearer": {
+                "telus-pe-tp-info": {
+                  "vlan-inner-id": 0,
+                  "mode": "access",
+                  "vlan-id": 0,
+                  "encapsulation": "dot1q",
+                  "admin-state": "down",
+                  "speed": "10M",
+                  "port": "string"
+                },
+                "telus-gre-tp-info": {
+                  "tunnel-group-id": 0,
+                  "delivery-service-id": 0,
+                  "provider-tunnel-address": "string",
+                  "customer-tunnel-address": "string",
+                  "tunnel-prefix-length": 0,
+                  "vlan-id": 0
+                },
+                "bearer-id": "string",
+                "requested-type": {
+                  "requested-type": "HS"
+                }
+              },
+              "ip-connection": {
+                "ipv4": {
+                  "static-address": {
+                    "addresses": {
+                      "provider-address": "string",
+                      "prefix-length": 0,
+                      "customer-address": "string"
+                    }
+                  }
+                },
+                "ipv6": {
+                  "static-address": {
+                    "addresses": {
+                      "provider-address": "string",
+                      "prefix-length": 0,
+                      "customer-address": "string"
+                    }
+                  }
+                }
+              },
+              "service": {
+                "telus-svc-input-cir-bandwidth": 0,
+                "svc-input-bandwidth": 0,
+                "svc-output-bandwidth": 0,
+                "svc-mtu": 0
+              },
+              "routing-protocols": {
+                "routing-protocol": [
+                  {
+                    "type": "bgp",
+                    "bgp": {
+                      "autonomous-system": 0,
+                      "address-family": [
+                        "ipv4"
+                      ],
+                      "neighbor-v4-address": "string"
+                    }
+                  }
+                ]
+              },
+              "availability": {
+                "access-priority": 0
+              },
+              "telus-network-access-info": {
+                "accounting-policy-id": "string",
+                "re-service-id": 0
+              }
+            }
+          },
+          "telus-pe-ce-network-accesses": {
+            "site-network-access": {
+              "site-network-access-id": 0,
+              "site-network-access-type": "telus-re-direct",
+              "telus-device-loopback-address": "string",
+              "telus-pe-device-reference": "string",
+              "telus-device-reference": "string",
+              "telus-demarc-device-reference": "string",
+              "bearer": {
+                "telus-pe-tp-info": {
+                  "vlan-inner-id": 0,
+                  "mode": "access",
+                  "vlan-id": 0,
+                  "encapsulation": "dot1q",
+                  "admin-state": "down",
+                  "speed": "10M",
+                  "port": "string"
+                },
+                "telus-gre-tp-info": {
+                  "tunnel-group-id": 0,
+                  "delivery-service-id": 0,
+                  "provider-tunnel-address": "string",
+                  "customer-tunnel-address": "string",
+                  "tunnel-prefix-length": 0,
+                  "vlan-id": 0
+                },
+                "bearer-id": "string",
+                "requested-type": {
+                  "requested-type": "HS"
+                }
+              },
+              "ip-connection": {
+                "ipv4": {
+                  "static-address": {
+                    "addresses": {
+                      "provider-address": "string",
+                      "prefix-length": 0,
+                      "customer-address": "string"
+                    }
+                  }
+                },
+                "ipv6": {
+                  "static-address": {
+                    "addresses": {
+                      "provider-address": "string",
+                      "prefix-length": 0,
+                      "customer-address": "string"
+                    }
+                  }
+                }
+              },
+              "service": {
+                "telus-svc-input-cir-bandwidth": 0,
+                "svc-input-bandwidth": 0,
+                "svc-output-bandwidth": 0,
+                "svc-mtu": 0
+              },
+              "routing-protocols": {
+                "routing-protocol": [
+                  {
+                    "type": "bgp",
+                    "bgp": {
+                      "autonomous-system": 0,
+                      "address-family": [
+                        "ipv4"
+                      ],
+                      "neighbor-v4-address": "string"
+                    }
+                  }
+                ]
+              },
+              "availability": {
+                "access-priority": 0
+              },
+              "telus-network-access-info": {
+                "accounting-policy-id": "string",
+                "re-service-id": 0
+              }
+            }
+          },
+          "locations": {
+            "location": [
+              {
+                "location-id": "string",
+                "telus-cust-service-id": "string"
+              }
+            ]
+          },
+          "devices": {
+            "device": [
+              {
+                "device-id": "string",
+                "location-id": "string"
+              }
+            ]
+          },
+          "telus-pe-devices": {
+            "pe-device": [
+              {
+                "pe-device-id": "string",
+                "locations": [
+                  "string"
+                ]
+              }
+            ]
+          },
+          "vpn-policies": {
+            "vpn-policy": {
+              "mpls-bi": {
+                "type": [
+                  "static"
+                ],
+                "entries": {
+                  "customer-prefixes": {
+                    "filters": {
+                      "filter": {
+                        "ipv6-lan-prefix": [
+                          "string"
+                        ],
+                        "ipv4-lan-prefix": [
+                          "string"
+                        ]
+                      }
+                    }
+                  },
+                  "telus-provider-prefixes": {
+                    "filters": {
+                      "filter": {
+                        "ipv6-lan-prefix": [
+                          "string"
+                        ],
+                        "ipv4-lan-prefix": [
+                          "string"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "telus-demarc-devices": {
+            "demarc-device": [
+              {
+                "demarc-device-id": "string",
+                "management": {
+                  "vlan-id": 0,
+                  "vpls-service-id": 0,
+                  "qos-policy-id": "string"
+                }
+              }
+            ]
+          },
+          "telus-site-info": {
+            "full-service-name": "string"
+          },
+          "telus-cust-service-id": "string",
+          "telus-cust-info": {
+            "cust-id": "string",
+            "cust-shortname": "string",
+            "cust-descr": "string",
+            "cust-email-address": "string"
+          }
+        }
+      }
+    }
+  ]
+}
+
+
